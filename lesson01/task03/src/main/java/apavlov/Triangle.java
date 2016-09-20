@@ -11,7 +11,7 @@ public class Triangle implements Figure {
         this.c = c;
     }
 
-    private double distanceTo(Point pointOne, Point pointTwo) {
+    public double distanceTo(Point pointOne, Point pointTwo) {
         double temp = Math.pow(pointTwo.getX() - pointOne.getX(), 2);
         temp += Math.pow(pointTwo.getY() - pointOne.getY(), 2);
         return Math.sqrt(temp);

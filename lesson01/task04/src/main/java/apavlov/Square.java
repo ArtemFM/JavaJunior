@@ -17,7 +17,7 @@ public class Square {
 
     public void show(int start, int finish, int step) {
         for (int i = start; i <= finish; i += step) {
-            System.out.println("x = " + i + "; " + String.format("%.2f", calculate(i)));
+            System.out.printf("x = %d; %.2f; %s", i, calculate(i), System.lineSeparator());
         }
     }
 }

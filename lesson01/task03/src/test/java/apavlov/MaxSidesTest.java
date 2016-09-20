@@ -9,7 +9,7 @@ public class MaxSidesTest {
 
     @Test
     public void whenMaxSideFigure() throws Exception {
-        Figure figure = new Triangle(new Point(1, 2), new Point(4, 4), new Point(5, 5));
+        Triangle figure = new Triangle(new Point(1, 2), new Point(4, 4), new Point(5, 5));
         double cheked = 5D;
 
         double result = new MaxSides().max(figure);

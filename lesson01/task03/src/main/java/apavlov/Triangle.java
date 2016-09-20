@@ -1,9 +1,21 @@
 package apavlov;
 
-public class Triangle implements Figure {
+public class Triangle {
     private Point a;
     private Point b;
     private Point c;
+
+    public Point getA() {
+        return a;
+    }
+
+    public Point getB() {
+        return b;
+    }
+
+    public Point getC() {
+        return c;
+    }
 
     public Triangle(Point a, Point b, Point c) {
         this.a = a;
@@ -11,29 +23,12 @@ public class Triangle implements Figure {
         this.c = c;
     }
 
-    public double distanceTo(Point pointOne, Point pointTwo) {
-        double temp = Math.pow(pointTwo.getX() - pointOne.getX(), 2);
-        temp += Math.pow(pointTwo.getY() - pointOne.getY(), 2);
-        return Math.sqrt(temp);
-    }
-
-    public double[] longLines() {
-        double[] lines = new double[3];
-        lines[0] = distanceTo(a, b);
-        lines[1] = distanceTo(a, c);
-        lines[2] = distanceTo(c, b);
-        return lines;
-    }
-
     public double area() {
-        double[] distance = longLines();
-        for (double i : distance) {
-            if (i == 0) {
-                throw new IllegalArgumentException("The area triangle can't be calculated");
-            }
-        }
-        double s = (distance[0] + distance[1] + distance[2]) / 2;
-        double areaTriangle = Math.sqrt(s * (s - distance[0]) * (s - distance[1]) * (s - distance[2]));
+        double sideA = a.distanceTo(b);
+        double sideB = a.distanceTo(c);
+        double sideC = b.distanceTo(c);
+        double s = (sideA + sideB + sideC) / 2;
+        double areaTriangle = Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
         if (areaTriangle == 0) {
             throw new IllegalArgumentException("The area triangle can't be calculated");
         }

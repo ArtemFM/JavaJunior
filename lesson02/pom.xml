@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>JavaJunior.lesson02</groupId>
+    <artifactId>lesson02</artifactId>
+    <version>1.0</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+        <module>task01</module>
+    </modules>
+</project>

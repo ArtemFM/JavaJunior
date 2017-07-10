@@ -1,5 +1,7 @@
 package apavlov;
 
+import java.io.PrintStream;
+
 public class Square {
     private float a;
     private float b;

@@ -112,16 +112,16 @@ public class Tracker {
      * @return return array serching items;
      */
     public Item[] findByName(String text) {
-        Item[] returnItems = new Item[0];
+        Item[] returnItems = new Item[this.size];
+        int position = 0;
         if (!text.equals("") && text != null) {
             for (int index = 0; index < size; index++) {
                 if (items[index].getName().toLowerCase().contains(text.toLowerCase())) {
-                    returnItems = Arrays.copyOf(returnItems, returnItems.length + 1);
-                    returnItems[returnItems.length - 1] = items[index];
+                    returnItems[position++] = items[index];
                 }
             }
         }
-        return returnItems;
+        return Arrays.copyOf(returnItems, position);
     }
 
     /**
@@ -210,15 +210,6 @@ public class Tracker {
         if (item != null) {
             int index = getIndexToItems(item);
             if (index != -1 && index < size) {
-                Comment[] arrOld = items[index].getComments();
-                Comment[] arrNew = item.getComments();
-                Comment[] arrEnd = new Comment[arrOld.length + arrNew.length];
-                System.arraycopy(arrOld, 0, arrEnd, 0, arrOld.length);
-                System.arraycopy(arrNew, 0, arrEnd, arrOld.length, arrNew.length);
-                item.setComments(arrEnd);
-                if (arrEnd.length > 1) {
-                    sortCommentsToDate(item);
-                }
                 item.setIdItem(item.getIdItem().toUpperCase());
                 items[index] = item;
                 result = true;

@@ -38,10 +38,10 @@ public class ConsoleInputTest {
     @Test
     public void wheInputToConsoleWithRange() throws Exception {
         java.io.InputStream inputStream = System.in;
-        System.setIn(new ByteArrayInputStream("3".getBytes()));
+        System.setIn(new ByteArrayInputStream("1".getBytes()));
         ConsoleInput consoleInput = new ConsoleInput();
-        String data = consoleInput.ask("Testing question: ", 1, 5);
+        int data = consoleInput.ask("Testing question: ", 1, 5);
         System.setIn(inputStream);
-        assertThat("3", is(data));
+        assertThat(1, is(data));
     }
 }

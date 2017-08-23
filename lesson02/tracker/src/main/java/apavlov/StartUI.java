@@ -47,7 +47,7 @@ public class StartUI {
     /**
      * The method work full program.
      */
-    private void init() {
+    public void init() {
         String key = "";
         System.out.printf("Welcome to program Tracker...%s%s", LS, LS);
         fillActions();

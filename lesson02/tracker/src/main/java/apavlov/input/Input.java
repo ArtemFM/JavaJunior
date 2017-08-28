@@ -24,5 +24,5 @@ public interface Input {
      * @param endRange - max possible number;
      * @return value inpeted with console;
      */
-    int ask(String question, int startRange, int endRange);
+    String ask(String question, int startRange, int endRange);
 }

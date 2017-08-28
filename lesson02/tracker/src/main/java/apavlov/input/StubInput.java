@@ -34,11 +34,11 @@ public class StubInput implements Input {
     }
 
     @Override
-    public int ask(String question, int startRange, int endRange) {
-        int key = Integer.parseInt(answers[position++]) - 1;
+    public String ask(String question, int startRange, int endRange) {
+        int key = Integer.parseInt(answers[position++]);
         if (key < startRange || key > endRange) {
             throw new ArrayIndexOutOfBoundsException("Inccoret range...");
         }
-        return key;
+        return String.valueOf(key);
     }
 }

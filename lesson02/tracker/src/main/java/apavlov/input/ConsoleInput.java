@@ -21,8 +21,8 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int startRange, int endRange) {
+    public String ask(String question, int startRange, int endRange) {
         System.out.print(question);
-        return readConsole.nextInt();
+        return readConsole.nextLine();
     }
 }

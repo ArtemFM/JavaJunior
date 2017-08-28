@@ -40,8 +40,8 @@ public class ConsoleInputTest {
         java.io.InputStream inputStream = System.in;
         System.setIn(new ByteArrayInputStream("1".getBytes()));
         ConsoleInput consoleInput = new ConsoleInput();
-        int data = consoleInput.ask("Testing question: ", 1, 5);
+        String data = consoleInput.ask("Testing question: ", 1, 5);
         System.setIn(inputStream);
-        assertThat(1, is(data));
+        assertThat("1", is(data));
     }
 }

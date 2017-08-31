@@ -1,8 +1,8 @@
 package apavlov;
 
 import apavlov.database.Tracker;
-import apavlov.input.ConsoleInput;
 import apavlov.input.Input;
+import apavlov.input.ValidateInput;
 import apavlov.menu.MenuTracker;
 
 /**
@@ -49,11 +49,16 @@ public class StartUI {
     public void init() {
         MenuTracker menuTracker = new MenuTracker(input, tracker);
         menuTracker.fillMenu("Welcome to program Tracker...");
+        menuTracker.showMenuToConsole();
         int key = 0;
         do {
-            menuTracker.showMenuToConsole();
-            key = Integer.parseInt(input.ask(String.format("%sPlease, input number menu and press Enter: ", LS), 1, menuTracker.getSizeMenu()));
-            menuTracker.select(key);
+            key = input.ask(String.format("%sPlease, input number menu and press Enter: ", LS), 1, menuTracker.getSizeMenu());
+            if (key != -1) {
+                menuTracker.select(key);
+                if (!menuTracker.isExit(key)) {
+                    menuTracker.showMenuToConsole();
+                }
+            }
         } while (!menuTracker.isExit(key));
     }
 
@@ -63,6 +68,6 @@ public class StartUI {
      * @param args - data for console;
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }

@@ -1,5 +1,7 @@
 package apavlov.input;
 
+import apavlov.error.MenuOutException;
+
 import java.util.Scanner;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Scanner;
  */
 public class ConsoleInput implements Input {
     /**
-     * The var class`s Scanner for work with console.
+     * The var for read input data user.
      */
     private Scanner readConsole = new Scanner(System.in);
 
@@ -21,8 +23,12 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public String ask(String question, int startRange, int endRange) {
+    public int ask(String question, int startRange, int endRange) {
         System.out.print(question);
-        return readConsole.nextLine();
+        int key = Integer.parseInt(readConsole.nextLine());
+        if (key < startRange || key > endRange) {
+            throw new MenuOutException("Error: Input number incoreect!");
+        }
+        return key;
     }
 }

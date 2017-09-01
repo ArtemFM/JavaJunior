@@ -18,20 +18,10 @@ public class MenuTracker {
     /**
      * The var object UserAction for exit program.
      */
-    private UserAction exit = new UserAction() {
-        @Override
-        public int key() {
-            return 12;
-        }
-
+    private UserAction exit = new BaseAction("Exit program", 12) {
         @Override
         public void execuite(Tracker tracker, Input input) {
             System.out.printf("%sProgramm is exit...", LS);
-        }
-
-        @Override
-        public String info() {
-            return "Exit program";
         }
     };
 
@@ -95,17 +85,17 @@ public class MenuTracker {
      */
     public void fillMenu(String welcome) {
         System.out.printf("%s%s%s", welcome, LS, LS);
-        addMenu(new ShowItems());
-        addMenu(new SortById());
-        addMenu(new SortByName());
-        addMenu(new AddItem());
-        addMenu(new SearchByName());
-        addMenu(new DeleteItem());
-        addMenu(new EditItem());
-        addMenu(new ShowCommentsItem());
-        addMenu(new AddCommentItem());
-        addMenu(new DeleteCommentItem());
-        addMenu(new ClearCommentsItem());
+        addMenu(new ShowItems("Show all items", 1));
+        addMenu(new SortById("Sort items by id", 2));
+        addMenu(new SortByName("Sort items by name", 3));
+        addMenu(new AddItem("Add new item", 4));
+        addMenu(new SearchByName("Search items by name", 5));
+        addMenu(new DeleteItem("Delete item by id", 6));
+        addMenu(new EditItem("Edit item by id", 7));
+        addMenu(new ShowCommentsItem("Show all comments item`s by id", 8));
+        addMenu(new AddCommentItem("Add comment to item by id", 9));
+        addMenu(new DeleteCommentItem("Delete comment by index to item by id", 10));
+        addMenu(new ClearCommentsItem("Clear comments to item by id", 11));
         addMenu(exit);
     }
 
@@ -144,19 +134,29 @@ public class MenuTracker {
 }
 
 /**
- * The inner class ShowItem implements UserAction.
+ * The inner class ShowItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class ShowItems implements UserAction {
+class ShowItems extends BaseAction {
 
-    @Override
-    public int key() {
-        return 1;
+    /**
+     * The constructor for class ShowItems.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    ShowItems(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String line = String.format("%95s", " ").replace(" ", "-");
         System.out.printf("%s%-5s%-30s%-50s%-11s%s", LS, "ID", "NAME", "DESCRIPTION", "DATE", LS);
@@ -170,27 +170,32 @@ class ShowItems implements UserAction {
         }
         System.out.printf("%s%s%s", line, LS, LS);
     }
-
-    @Override
-    public String info() {
-        return "Show all items";
-    }
 }
 
 /**
- * The inner class SortById implements UserAction.
+ * The inner class SortById extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class SortById implements UserAction {
+class SortById extends BaseAction {
 
-    @Override
-    public int key() {
-        return 2;
+    /**
+     * The constructor for class SortById.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    SortById(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         if (tracker.getAllItems().length != 0) {
             tracker.sortItemsToId();
@@ -199,27 +204,32 @@ class SortById implements UserAction {
             System.out.printf("%sThe list items is empty...%s%s", LS, LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Sort items by id";
-    }
 }
 
 /**
- * The inner class SortByName implements UserAction.
+ * The inner class SortByName extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class SortByName implements UserAction {
+class SortByName extends BaseAction {
 
-    @Override
-    public int key() {
-        return 3;
+    /**
+     * The constructor for class SortByName.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    SortByName(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         if (tracker.getAllItems().length != 0) {
             tracker.sortItemsToName();
@@ -228,27 +238,32 @@ class SortByName implements UserAction {
             System.out.printf("%sThe list items is empty...%s%s", LS, LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Sort items by name";
-    }
 }
 
 /**
- * The inner class AddItem implements UserAction.
+ * The inner class AddItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class AddItem implements UserAction {
+class AddItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 4;
+    /**
+     * The constructor for class AddItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    AddItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String result = "";
         String name = input.ask("Please, input name for item and press Enter: ");
@@ -263,27 +278,32 @@ class AddItem implements UserAction {
         }
         System.out.printf("%s%s%s%s", LS, result, LS, LS);
     }
-
-    @Override
-    public String info() {
-        return "Add new item";
-    }
 }
 
 /**
- * The inner class SearchByName implements UserAction.
+ * The inner class SearchByName extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class SearchByName implements UserAction {
+class SearchByName extends BaseAction {
 
-    @Override
-    public int key() {
-        return 5;
+    /**
+     * The constructor for class SearchByName.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    SearchByName(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String word = input.ask("Please, input word for search items by name and press Enter: ");
         word = word.trim();
@@ -305,27 +325,32 @@ class SearchByName implements UserAction {
             System.out.printf("%s%s%s%s", LS, "Incorrect input value. Try again...", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Search items by name";
-    }
 }
 
 /**
- * The inner class DeleteItem implements UserAction.
+ * The inner class DeleteItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class DeleteItem implements UserAction {
+class DeleteItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 6;
+    /**
+     * The constructor for class DeleteItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    DeleteItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for delete and press Enter: ");
         if (tracker.deleteItem(tracker.findById(id))) {
@@ -334,27 +359,32 @@ class DeleteItem implements UserAction {
             System.out.printf("%s%s%s%s", LS, "The item is not search. Delete is fail!", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Delete item by id";
-    }
 }
 
 /**
- * The inner class EditItem implements UserAction.
+ * The inner class EditItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class EditItem implements UserAction {
+class EditItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 7;
+    /**
+     * The constructor for class EditItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    EditItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for edit and press Enter: ");
         Item item = tracker.findById(id);
@@ -373,27 +403,32 @@ class EditItem implements UserAction {
             System.out.printf("%s%s%s%s", LS, "The item is not search!", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Edit item by id";
-    }
 }
 
 /**
- * The inner class ShowCommentsItem implements UserAction.
+ * The inner class ShowCommentsItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class ShowCommentsItem implements UserAction {
+class ShowCommentsItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 8;
+    /**
+     * The constructor for class ShowCommentsItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    ShowCommentsItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for show comment and press Enter: ");
         Item item = tracker.findById(id);
@@ -415,27 +450,32 @@ class ShowCommentsItem implements UserAction {
             System.out.printf("%s%s%s%s", LS, "The item is not search!", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Show all comments item`s by id";
-    }
 }
 
 /**
- * The inner class AddCommentItem implements UserAction.
+ * The inner class AddCommentItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class AddCommentItem implements UserAction {
+class AddCommentItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 9;
+    /**
+     * The constructor for class AddCommentItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    AddCommentItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for add comment and press Enter: ");
         Item item = tracker.findById(id);
@@ -452,27 +492,32 @@ class AddCommentItem implements UserAction {
             System.out.printf("%s%s%s%s", LS, "The item is not search!", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Add comment to item by id";
-    }
 }
 
 /**
- * The inner class DeleteCommentItem implements UserAction.
+ * The inner class DeleteCommentItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class DeleteCommentItem implements UserAction {
+class DeleteCommentItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 10;
+    /**
+     * The constructor for class DeleteCommentItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    DeleteCommentItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String result = "";
         String id = input.ask("Please, input id item for delete comment and press Enter: ");
@@ -490,27 +535,32 @@ class DeleteCommentItem implements UserAction {
             System.out.printf("%s%s%s%s", LS, "The item is not search!", LS, LS);
         }
     }
-
-    @Override
-    public String info() {
-        return "Delete comment by index to item by id";
-    }
 }
 
 /**
- * The inner class ClearCommentsItem implements UserAction.
+ * The inner class ClearCommentsItem extends BaseAction.
  *
  * @author Pavlov Artem
  * @since 28.08.2017
  */
-class ClearCommentsItem implements UserAction {
+class ClearCommentsItem extends BaseAction {
 
-    @Override
-    public int key() {
-        return 11;
+    /**
+     * The constructor for class ClearCommentsItem.
+     *
+     * @param name - name menu;
+     * @param key - number menu;
+     */
+    ClearCommentsItem(String name, int key) {
+        super(name, key);
     }
 
-    @Override
+    /**
+     * The method for run work menu.
+     *
+     * @param tracker - link object Tracker;
+     * @param input   - link object Input;
+     */
     public void execuite(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for show comment and press Enter: ");
         Item item = tracker.findById(id);
@@ -520,11 +570,6 @@ class ClearCommentsItem implements UserAction {
         } else {
             System.out.printf("%s%s%s%s", LS, "The item is not search!", LS, LS);
         }
-    }
-
-    @Override
-    public String info() {
-        return "Clear cooments to item by id";
     }
 }
 

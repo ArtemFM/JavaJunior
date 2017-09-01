@@ -48,7 +48,7 @@ public class StartUITest {
             8, "Show all comments item`s by id;", LS,
             9, "Add comment to item by id;", LS,
             10, "Delete comment by index to item by id;", LS,
-            11, "Clear cooments to item by id;", LS,
+            11, "Clear comments to item by id;", LS,
             12, "Exit program;", LS);
 
     /**

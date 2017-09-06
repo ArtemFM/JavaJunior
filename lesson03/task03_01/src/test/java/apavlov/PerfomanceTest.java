@@ -37,12 +37,12 @@ public class PerfomanceTest {
     /**
      * The var - count add elements.
      */
-    private int countAdd = 30_000;
+    private int countAdd = 20_000;
 
     /**
      * The var - count delete elements.
      */
-    private int n = 3_000;
+    private int n = 10_000;
 
     /**
      * The test add elements to collections.

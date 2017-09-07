@@ -37,8 +37,8 @@ public class ConvertListTest {
     @Test
     public void whenConvertListToArray() throws Exception {
         List<Integer> list = new ArrayList<>();
-        Collections.addAll(list, new Integer[]{1, 2, 3, 4, 5});
-        int[][] result = new int[][]{{1, 2, 3}, {4, 5, 0}, {0, 0, 0}};
+        Collections.addAll(list, new Integer[]{1, null, 3, 4, null});
+        int[][] result = new int[][]{{1, 3}, {4, 0}};
         ConvertList cl = new ConvertList();
         assertThat(result, is(cl.toArray(list)));
     }

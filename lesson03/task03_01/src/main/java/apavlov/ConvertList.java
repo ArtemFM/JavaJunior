@@ -1,6 +1,7 @@
 package apavlov;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,19 +34,25 @@ public class ConvertList {
      * @return - dynamic array;
      */
     public int[][] toArray(List<Integer> list) {
-        int length = (int) Math.ceil(Math.sqrt(list.size()));
-        int[][] array = new int[length][length];
+        int[] array = new int[list.size()];
+        int count = 0;
+        for (Integer value : list) {
+            if (value != null) {
+                array[count++] = value;
+            }
+        }
+        array = Arrays.copyOf(array, count);
+        int length = (int) Math.ceil(Math.sqrt(array.length));
+        int[][] arrayDyn = new int[length][length];
         int i = 0;
         int k = 0;
-        for (Integer value : list) {
-            array[i][k] = value;
-            k++;
-            if (k == length) {
-                k = 0;
+        for (int value : array) {
+            arrayDyn[i][k++] = value;
+            if (k == array.length - 1) {
                 i++;
+                k = 0;
             }
-
         }
-        return array;
+        return arrayDyn;
     }
 }

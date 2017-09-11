@@ -3,6 +3,7 @@ package apavlov;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The class ConvertList for convert array to list and list to array.
@@ -54,5 +55,68 @@ public class ConvertList {
             }
         }
         return arrayDyn;
+    }
+
+    /**
+     * The method convert list arrays to list type Integer.
+     *
+     * @param list - list for convert;
+     * @return - list type Integer;
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> listRes = new ArrayList<>();
+        for (int[] array : list) {
+            if (array != null) {
+                listRes.addAll(Arrays.stream(array).boxed().collect(Collectors.toList()));
+            }
+        }
+        return listRes;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

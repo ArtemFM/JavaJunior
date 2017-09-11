@@ -42,4 +42,21 @@ public class ConvertListTest {
         ConvertList cl = new ConvertList();
         assertThat(result, is(cl.toArray(list)));
     }
+
+    /**
+     * The test method for check convert list ints to list type Integer.
+     *
+     * @throws Exception - check any errors;
+     */
+    @Test
+    public void whenListIntsToInteger() throws Exception {
+        List<Integer> resultList = new ArrayList<>();
+        Collections.addAll(resultList, new Integer[]{1, 2, 3, 4, 5});
+        List<int[]> testList = new ArrayList<>();
+        testList.add(new int[]{1, 2, 3});
+        testList.add(null);
+        testList.add(new int[]{4, 5});
+        ConvertList cl = new ConvertList();
+        assertThat(resultList, is(cl.convert(testList)));
+    }
 }

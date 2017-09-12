@@ -1,12 +1,12 @@
 package apavlov.input;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * The class StubInput implement`s interface Input.
  *
  * @author Pavlov Artem
- * @since 23.08.2017
+ * @since 12.09.2017
  */
 public class StubInput implements Input {
     /**
@@ -17,25 +17,25 @@ public class StubInput implements Input {
     /**
      * The array save combinations menu.
      */
-    private String[] answers;
+    private List<String> answers;
 
     /**
      * The constructor class`s StubInput.
      *
      * @param answers - fill array combinations;
      */
-    public StubInput(String[] answers) {
-        this.answers = Arrays.copyOf(answers, answers.length);
+    public StubInput(List<String> answers) {
+        this.answers = answers;
     }
 
     @Override
     public String ask(String question) {
-        return answers[position++];
+        return answers.get(position++);
     }
 
     @Override
     public int ask(String question, int startRange, int endRange) {
-        int key = Integer.parseInt(answers[position++]);
+        int key = Integer.parseInt(answers.get(position++));
         if (key < startRange || key > endRange) {
             throw new ArrayIndexOutOfBoundsException("Inccoret range...");
         }

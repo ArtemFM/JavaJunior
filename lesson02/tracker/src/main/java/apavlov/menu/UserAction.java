@@ -28,7 +28,7 @@ public interface UserAction {
      * @param tracker - link object Tracker;
      * @param input - link object Input;
      */
-    void execuite(Tracker tracker, Input input);
+    void execute(Tracker tracker, Input input);
 
     /**
      * The method name menu for console.

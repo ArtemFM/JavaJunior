@@ -4,10 +4,9 @@ import apavlov.database.Tracker;
 import apavlov.input.StubInput;
 import apavlov.models.Item;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
+import java.util.Arrays;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -15,7 +14,7 @@ import static org.junit.Assert.assertThat;
  * The test class for class StartUI.
  *
  * @author Pavlov Artem
- * @since 23.08.2017
+ * @since 12.09.2017
  */
 public class StartUITest {
 
@@ -54,7 +53,7 @@ public class StartUITest {
     /**
      * The var is text exit program.
      */
-    private String exitText = String.format("%sProgramm is exit...", LS);
+    private String exitText = String.format("%sProgram is exit...", LS);
 
     /**
      * The test print all items to console.
@@ -68,7 +67,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item item = new Item("Artem", "student", "001");
         tracker.addItem(item);
-        new StartUI(new StubInput(new String[]{"1", "12"}), tracker).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"1", "12"})), tracker).init();
 
         String line = String.format("%95s", " ").replace(" ", "-");
         sb.delete(0, sb.length());
@@ -96,8 +95,8 @@ public class StartUITest {
         Item twoItem = new Item("Sergey", "student", "001");
         tracker.addItem(oneItem);
         tracker.addItem(twoItem);
-        new StartUI(new StubInput(new String[]{"2", "12"}), tracker).init();
-        assertThat(twoItem.getName(), is(tracker.getAllItems()[0].getName()));
+        new StartUI(new StubInput(Arrays.asList(new String[]{"2", "12"})), tracker).init();
+        assertThat(twoItem.getName(), is(tracker.getAllItems().get(0).getName()));
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
@@ -121,8 +120,8 @@ public class StartUITest {
         Item twoItem = new Item("Sergey", "student", "002");
         tracker.addItem(oneItem);
         tracker.addItem(twoItem);
-        new StartUI(new StubInput(new String[]{"3", "12"}), tracker).init();
-        assertThat(twoItem.getName(), is(tracker.getAllItems()[0].getName()));
+        new StartUI(new StubInput(Arrays.asList(new String[]{"3", "12"})), tracker).init();
+        assertThat(twoItem.getName(), is(tracker.getAllItems().get(0).getName()));
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
@@ -142,8 +141,8 @@ public class StartUITest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         Tracker tracker = new Tracker();
-        new StartUI(new StubInput(new String[]{"4", "Artem", "student", "12"}), tracker).init();
-        assertThat("Artem", is(tracker.getAllItems()[0].getName()));
+        new StartUI(new StubInput(Arrays.asList(new String[]{"4", "Artem", "student", "12"})), tracker).init();
+        assertThat("Artem", is(tracker.getAllItems().get(0).getName()));
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
@@ -169,7 +168,7 @@ public class StartUITest {
         tracker.addItem(oneItem);
         tracker.addItem(twoItem);
         tracker.addItem(threeItem);
-        new StartUI(new StubInput(new String[]{"5", "alex", "12"}), tracker).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"5", "alex", "12"})), tracker).init();
 
         String line = String.format("%95s", " ").replace(" ", "-");
         sb.delete(0, sb.length());
@@ -196,8 +195,8 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         tracker.addItem(new Item("Artem", "student", "001"));
         tracker.addItem(new Item("Pasha", "student", "002"));
-        new StartUI(new StubInput(new String[]{"6", "001", "12"}), tracker).init();
-        assertThat(1, is(tracker.getAllItems().length));
+        new StartUI(new StubInput(Arrays.asList(new String[]{"6", "001", "12"})), tracker).init();
+        assertThat(1, is(tracker.getAllItems().size()));
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
@@ -218,9 +217,8 @@ public class StartUITest {
         System.setOut(new PrintStream(out));
         Tracker tracker = new Tracker();
         tracker.addItem(new Item("Artem", "student", "001"));
-        new StartUI(new StubInput(new String[]{"7", "001", "Anton", "student", "12"}), tracker).init();
-        assertThat("Anton", is(tracker.getAllItems()[0].getName()));
-
+        new StartUI(new StubInput(Arrays.asList(new String[]{"7", "001", "Anton", "student", "12"})), tracker).init();
+        assertThat("Anton", is(tracker.getAllItems().get(0).getName()));
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
         sb.append(String.format("%sThe item is edit!%s%s", LS, LS, LS));
@@ -240,8 +238,8 @@ public class StartUITest {
         System.setOut(new PrintStream(out));
         Tracker tracker = new Tracker();
         tracker.addItem(new Item("Artem", "student", "001"));
-        new StartUI(new StubInput(new String[]{"9", "001", "make java", "12"}), tracker).init();
-        assertThat("make java", is(tracker.getAllItems()[0].getComments()[0].getComment()));
+        new StartUI(new StubInput(Arrays.asList(new String[]{"9", "001", "make java", "12"})), tracker).init();
+        assertThat("make java", is(tracker.getAllItems().get(0).getComments().get(0).getComment()));
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
@@ -264,15 +262,15 @@ public class StartUITest {
         Item item = new Item("Artem", "student", "001");
         tracker.addItem(item);
         tracker.addCommentToItem(item, "make java");
-        new StartUI(new StubInput(new String[]{"8", "001", "12"}), tracker).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"8", "001", "12"})), tracker).init();
 
         String line = String.format("%80s", " ").replace(" ", "-");
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);
         sb.append(String.format("%s%-7s%-13s%-11s%-50s%s", LS, "INDEX", "DATE", "TIME", "COMMENT", LS));
         sb.append(String.format("%s%s", line, LS));
-        String[] dateAndTime = item.getComments()[0].getDateAndTimeCreate().split(" ");
-        sb.append(String.format("%-7s%-13s%-11s%-50s%s", 1, dateAndTime[0], dateAndTime[1], item.getComments()[0].getComment(), LS));
+        String[] dateAndTime = item.getComments().get(0).getDateAndTimeCreate().split(" ");
+        sb.append(String.format("%-7s%-13s%-11s%-50s%s", 1, dateAndTime[0], dateAndTime[1], item.getComments().get(0).getComment(), LS));
         sb.append(String.format("%s%s%s", line, LS, LS));
         sb.append(menuText);
         sb.append(exitText);
@@ -292,7 +290,7 @@ public class StartUITest {
         Item item = new Item("Artem", "student", "001");
         tracker.addItem(item);
         tracker.addCommentToItem(item, "make java");
-        new StartUI(new StubInput(new String[]{"10", "001", "1", "12"}), tracker).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"10", "001", "1", "12"})), tracker).init();
         assertThat(0, is(tracker.getSizeComments(item)));
 
         sb.delete(0, sb.length());
@@ -317,7 +315,7 @@ public class StartUITest {
         tracker.addItem(item);
         tracker.addCommentToItem(item, "make java");
         tracker.addCommentToItem(item, "play soccer");
-        new StartUI(new StubInput(new String[]{"11", "001", "12"}), tracker).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"11", "001", "12"})), tracker).init();
         assertThat(0, is(tracker.getSizeComments(item)));
 
         sb.delete(0, sb.length());
@@ -337,7 +335,7 @@ public class StartUITest {
     public void whenExitProgram() throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        new StartUI(new StubInput(new String[]{"12"}), new Tracker()).init();
+        new StartUI(new StubInput(Arrays.asList(new String[]{"12"})), new Tracker()).init();
 
         sb.delete(0, sb.length());
         sb.append(welcomeText).append(menuText);

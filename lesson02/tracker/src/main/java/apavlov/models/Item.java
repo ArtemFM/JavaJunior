@@ -1,8 +1,10 @@
 package apavlov.models;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -50,7 +52,7 @@ public class Item {
     /**
      * The array class`s Comment for save comments.
      */
-    private Comment[] comments;
+    private List<Comment> comments;
 
     /**
      * The var for unique key item.
@@ -107,7 +109,7 @@ public class Item {
      *
      * @return return array comments item;
      */
-    public Comment[] getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -143,7 +145,7 @@ public class Item {
      *
      * @param comments - array comments item;
      */
-    public void setComments(Comment[] comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
@@ -166,7 +168,7 @@ public class Item {
         this.name = name;
         this.description = description;
         this.dateCreate = parseDate();
-        this.comments = new Comment[0];
+        this.comments = new ArrayList<>();
     }
 
     /**

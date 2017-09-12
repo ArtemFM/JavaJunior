@@ -2,14 +2,14 @@ package apavlov.database;
 
 import apavlov.models.Comment;
 import apavlov.models.Item;
-
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class Tracker for work items.
  *
  * @author Pavlov Artem
- * @since 21.07.2017
+ * @since 12.09.2017
  */
 public class Tracker {
     /**
@@ -20,19 +20,7 @@ public class Tracker {
     /**
      * The array save items.
      */
-    private Item[] items;
-
-    /**
-     * The var size base Tracker.
-     */
-    private int size;
-
-    /**
-     * The default constructor for class Tracker with length array 100.
-     */
-    public Tracker() {
-        this.items = new Item[10];
-    }
+    private List<Item> items = new ArrayList<>();
 
     /**
      * The method generate unique id.
@@ -51,24 +39,6 @@ public class Tracker {
     }
 
     /**
-     * The method dynamic increase array.
-     */
-    private void increaseLength() {
-        if (size == items.length) {
-            items = Arrays.copyOf(items, (int) ((double) (items.length) * 1.5));
-        }
-    }
-
-    /**
-     * The method dynamic reduce array.
-     */
-    private void reduceLength() {
-        if ((double) (items.length) / (double) size >= 1.6) {
-            items = Arrays.copyOf(items, (int) ((double) items.length / 1.5));
-        }
-    }
-
-    /**
      * The method add new item to array.
      *
      * @param item - item;
@@ -76,11 +46,10 @@ public class Tracker {
      */
     public Item addItem(Item item) {
         if (item != null) {
-            increaseLength();
             if (item.getIdItem() == null) {
                 item.setIdItem(generateId());
             }
-            this.items[size++] = item;
+            this.items.add(item);
             countAdd++;
         }
         return item;
@@ -89,15 +58,15 @@ public class Tracker {
     /**
      * The method search item to id (key).
      *
-     * @param key - id titem for search;
+     * @param key - id item for search;
      * @return return searching item or null;
      */
     public Item findById(String key) {
         Item result = null;
-        if (!key.equals("") && key != null) {
-            for (int index = 0; index < size; index++) {
-                if (items[index].getIdItem().toLowerCase().equals(key.toLowerCase())) {
-                    result = items[index];
+        if (key != null && !key.equals("")) {
+            for (Item item : items) {
+                if (item.getIdItem().toLowerCase().equals(key.toLowerCase())) {
+                    result = item;
                     break;
                 }
             }
@@ -109,61 +78,27 @@ public class Tracker {
      * The method search items to name or substring.
      *
      * @param text = offer for search;
-     * @return return array serching items;
+     * @return return list searching items;
      */
-    public Item[] findByName(String text) {
-        Item[] returnItems = new Item[this.size];
-        int position = 0;
-        if (!text.equals("") && text != null) {
-            for (int index = 0; index < size; index++) {
-                if (items[index].getName().toLowerCase().contains(text.toLowerCase())) {
-                    returnItems[position++] = items[index];
+    public List<Item> findByName(String text) {
+        List<Item> returnItems = new ArrayList<>();
+        if (text != null && !text.equals("")) {
+            for (Item item : items) {
+                if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                    returnItems.add(item);
                 }
             }
         }
-        return Arrays.copyOf(returnItems, position);
+        return returnItems;
     }
 
     /**
-     * The method return copy array data.
+     * The method return list items.
      *
-     * @return return acoping array;
+     * @return return list items;
      */
-    public Item[] getAllItems() {
-        return Arrays.copyOf(items, size);
-    }
-
-    /**
-     * The method return item to index for array.
-     *
-     * @param index = index array;
-     * @return return item;
-     */
-    public Item getItemToIndex(int index) {
-        Item item = null;
-        if (index < size) {
-            item = this.items[index];
-        }
-        return item;
-    }
-
-    /**
-     * The method get index to item.
-     *
-     * @param item = object item;
-     * @return return index to array items;
-     */
-    private int getIndexToItems(Item item) {
-        int result = -1;
-        if (item != null) {
-            for (int index = 0; index < size; index++) {
-                if (item.getIdItem().toUpperCase().equals(items[index].getIdItem().toUpperCase())) {
-                    result = index;
-                    break;
-                }
-            }
-        }
-        return result;
+    public List<Item> getAllItems() {
+        return this.items;
     }
 
     /**
@@ -173,30 +108,25 @@ public class Tracker {
      * @return boolean: true - is delete; false - is not delete;
      */
     public boolean deleteItem(Item item) {
-        boolean result = false;
-        int index = getIndexToItems(item);
-        if (index != -1 && index < size) {
-            items[index] = null;
-            System.arraycopy(items, index + 1, items, index, size - 1);
-            size--;
-            reduceLength();
-            result = true;
-        }
-        return result;
+        return this.items.remove(item);
     }
 
     /**
      * The method for sort object to name.
      */
     public void sortItemsToName() {
-        Arrays.sort(items, items[0].getSortName());
+        if (this.items.size() > 1) {
+            this.items.sort(items.get(0).getSortName());
+        }
     }
 
     /**
      * The method for sort object to id.
      */
     public void sortItemsToId() {
-        Arrays.sort(items, items[0].getSortId());
+        if (this.items.size() > 1) {
+            this.items.sort(items.get(0).getSortId());
+        }
     }
 
     /**
@@ -208,11 +138,13 @@ public class Tracker {
     public boolean editItem(Item item) {
         boolean result = false;
         if (item != null) {
-            int index = getIndexToItems(item);
-            if (index != -1 && index < size) {
-                item.setIdItem(item.getIdItem().toUpperCase());
-                items[index] = item;
-                result = true;
+            item.setIdItem(item.getIdItem().toUpperCase());
+            for (int i = 0; i < this.items.size(); i++) {
+                if (this.items.get(i).getIdItem().equals(item.getIdItem())) {
+                    this.items.set(i, item);
+                    result = true;
+                    break;
+                }
             }
         }
         return result;
@@ -222,12 +154,15 @@ public class Tracker {
      * The method for sort comments to date and time.
      *
      * @param item - object type Item;
+     * @return false - is not sort; true - is sort;
      */
-    private void sortCommentsToDate(Item item) {
-        if (item.getComments().length > 1) {
-            Comment[] comments = item.getComments();
-            Arrays.sort(item.getComments(), comments[0].getSortDate());
+    private boolean sortCommentsToDate(Item item) {
+        boolean result = false;
+        if (item != null && item.getComments().size() > 1) {
+            item.getComments().sort(item.getComments().get(0).getSortDate());
+            result = true;
         }
+        return result;
     }
 
     /**
@@ -238,16 +173,7 @@ public class Tracker {
      * @return return boolean: true - is add; false = is not add;
      */
     public boolean addCommentToItem(Item item, String comment) {
-        boolean result = false;
-        if (item != null) {
-            Comment[] workArray = item.getComments();
-            workArray = Arrays.copyOf(workArray, workArray.length + 1);
-            workArray[workArray.length - 1] = new Comment(comment);
-            sortCommentsToDate(item);
-            item.setComments(workArray);
-            result = true;
-        }
-        return result;
+        return item != null && item.getComments().add(new Comment(comment)) && sortCommentsToDate(item);
     }
 
     /**
@@ -259,12 +185,8 @@ public class Tracker {
      */
     public boolean deleteCommentToItem(Item item, int index) {
         boolean result = false;
-        Comment[] workArray = item.getComments();
-        if (item != null && index != -1 && index < workArray.length) {
-            workArray[index] = null;
-            System.arraycopy(workArray, index + 1, workArray, index, workArray.length - index - 1);
-            workArray = Arrays.copyOf(workArray, workArray.length - 1);
-            item.setComments(workArray);
+        if (item != null && index >= 0 && item.getComments().size() > index) {
+            item.getComments().remove(index);
             result = true;
         }
         return result;
@@ -274,15 +196,9 @@ public class Tracker {
      * The method clear all comments in to item.
      *
      * @param item - link on the object;
-     * @return boolean: false = is not clear; true - is clear;
      */
-    public boolean clearAllComments(Item item) {
-        boolean result = false;
-        if (item != null && item.getComments().length != 0) {
-            item.setComments(new Comment[0]);
-            result = true;
-        }
-        return result;
+    public void clearAllComments(Item item) {
+        item.getComments().clear();
     }
 
     /**
@@ -292,6 +208,6 @@ public class Tracker {
      * @return return lenght array comments;
      */
     public int getSizeComments(Item item) {
-        return item.getComments().length;
+        return item.getComments().size();
     }
 }

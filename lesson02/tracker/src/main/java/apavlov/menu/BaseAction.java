@@ -27,7 +27,7 @@ public abstract class BaseAction implements UserAction {
      * @param name - name menu;
      * @param key  - number menu;
      */
-    public BaseAction(String name, int key) {
+    BaseAction(String name, int key) {
         this.name = name;
         this.key = key;
     }
@@ -47,7 +47,7 @@ public abstract class BaseAction implements UserAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public abstract void execuite(Tracker tracker, Input input);
+    public abstract void execute(Tracker tracker, Input input);
 
     /**
      * The method return name menu.

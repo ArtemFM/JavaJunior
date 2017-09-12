@@ -3,6 +3,8 @@ package apavlov;
 import apavlov.database.Tracker;
 import apavlov.models.Item;
 import org.junit.Test;
+import java.util.Arrays;
+import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -10,7 +12,7 @@ import static org.junit.Assert.assertThat;
  * The test class for class Tracker.
  *
  * @author Pavlov Artem
- * @since 25.07.2017
+ * @since 12.09.2017
  */
 public class TrackerTest {
     /**
@@ -23,8 +25,7 @@ public class TrackerTest {
         Tracker base = new Tracker();
         Item item = new Item("artem", "student");
         base.addItem(item);
-
-        assertThat(base.getAllItems()[0], is(item));
+        assertThat(base.getAllItems().get(0), is(item));
     }
 
     /**
@@ -38,7 +39,7 @@ public class TrackerTest {
         base.addItem(new Item("test1", "testing", "3EA"));
         base.addItem(new Item("test2", "testing", "3E8"));
         base.addItem(new Item("test3", "testing", "3EC"));
-        assertThat(base.findById("3ec"), is(base.getAllItems()[2]));
+        assertThat(base.findById("3ec"), is(base.getAllItems().get(2)));
     }
 
     /**
@@ -52,9 +53,8 @@ public class TrackerTest {
         base.addItem(new Item("artem", "testing", "3EA"));
         base.addItem(new Item("anton", "testing", "3E8"));
         base.addItem(new Item("sergey", "testing", "3EC"));
-        Item[] item = new Item[1];
-        item[0] = base.getAllItems()[0];
-        assertThat(base.findByName("ART"), is(item));
+        List<Item> resultList = Arrays.asList(new Item[]{base.getAllItems().get(0), base.getAllItems().get(1)});
+        assertThat(base.findByName("A"), is(resultList));
     }
 
     /**
@@ -68,22 +68,7 @@ public class TrackerTest {
         base.addItem(new Item("artem", "testing", "3EA"));
         base.addItem(new Item("anton", "testing", "3E8"));
         base.addItem(new Item("sergey", "testing", "3EC"));
-        assertThat(base.getAllItems().length, is(3));
-    }
-
-    /**
-     * The test search item to index.
-     *
-     * @throws Exception - check any error;
-     */
-    @Test
-    public void whenGetItemToIndex() throws Exception {
-        Tracker base = new Tracker();
-        base.addItem(new Item("artem", "testing", "3EA"));
-        base.addItem(new Item("anton", "testing", "3E8"));
-        base.addItem(new Item("sergey", "testing", "3EC"));
-        Item item = base.getAllItems()[2];
-        assertThat(base.getItemToIndex(2), is(item));
+        assertThat(base.getAllItems().size(), is(3));
     }
 
     /**
@@ -97,9 +82,9 @@ public class TrackerTest {
         base.addItem(new Item("artem", "testing", "3EA"));
         base.addItem(new Item("anton", "testing", "3E8"));
         base.addItem(new Item("sergey", "testing", "3EC"));
-        Item[] item = {base.getAllItems()[0], base.getAllItems()[2]};
-        base.deleteItem(base.getAllItems()[1]);
-        assertThat(base.getAllItems(), is(item));
+        List<Item> listResult = Arrays.asList(new Item[]{base.getAllItems().get(0), base.getAllItems().get(2)});
+        base.deleteItem(base.getAllItems().get(1));
+        assertThat(base.getAllItems(), is(listResult));
     }
 
     /**
@@ -113,9 +98,9 @@ public class TrackerTest {
         base.addItem(new Item("sergey", "testing", "3EA"));
         base.addItem(new Item("pasha", "testing", "3E8"));
         base.addItem(new Item("artem", "testing", "3EC"));
-        Item[] item = {base.getAllItems()[2], base.getAllItems()[1], base.getAllItems()[0]};
+        List<Item> resultList = Arrays.asList(new Item[]{base.getAllItems().get(2), base.getAllItems().get(1), base.getAllItems().get(0)});
         base.sortItemsToName();
-        assertThat(base.getAllItems(), is(item));
+        assertThat(base.getAllItems(), is(resultList));
     }
 
     /**
@@ -129,9 +114,9 @@ public class TrackerTest {
         base.addItem(new Item("sergey", "testing", "3E7"));
         base.addItem(new Item("pasha", "testing", "3E5"));
         base.addItem(new Item("artem", "testing", "3E6"));
-        Item[] item = {base.getAllItems()[1], base.getAllItems()[2], base.getAllItems()[0]};
+        List<Item> resultList = Arrays.asList(new Item[]{base.getAllItems().get(1), base.getAllItems().get(2), base.getAllItems().get(0)});
         base.sortItemsToId();
-        assertThat(base.getAllItems(), is(item));
+        assertThat(base.getAllItems(), is(resultList));
     }
 
     /**
@@ -145,9 +130,9 @@ public class TrackerTest {
         base.addItem(new Item("sergey", "testing", "3E7"));
         base.addItem(new Item("pasha", "testing", "3E5"));
         base.addItem(new Item("artem", "testing", "3E6"));
-        Item item = new Item("ivan", "testing", "3e5");
+        Item item = new Item("ivan", "testing", "3E5");
         base.editItem(item);
-        assertThat(base.getAllItems()[1], is(item));
+        assertThat(base.getAllItems().get(1), is(item));
     }
 
     /**
@@ -160,8 +145,8 @@ public class TrackerTest {
         Tracker base = new Tracker();
         base.addItem(new Item("sergey", "testing", "3E7"));
         String text = "vualya";
-        base.addCommentToItem(base.getAllItems()[0], text);
-        assertThat(base.getAllItems()[0].getComments()[0].getComment(), is(text));
+        base.addCommentToItem(base.getAllItems().get(0), text);
+        assertThat(base.getAllItems().get(0).getComments().get(0).getComment(), is(text));
     }
 
     /**
@@ -173,11 +158,11 @@ public class TrackerTest {
     public void whenDeleteCommentToItem() throws Exception {
         Tracker base = new Tracker();
         base.addItem(new Item("sergey", "testing", "3E7"));
-        base.addCommentToItem(base.getAllItems()[0], "001");
-        base.addCommentToItem(base.getAllItems()[0], "002");
-        base.addCommentToItem(base.getAllItems()[0], "003");
-        base.deleteCommentToItem(base.getAllItems()[0], 1);
-        assertThat(base.getAllItems()[0].getComments().length, is(2));
+        base.addCommentToItem(base.getAllItems().get(0), "001");
+        base.addCommentToItem(base.getAllItems().get(0), "002");
+        base.addCommentToItem(base.getAllItems().get(0), "003");
+        base.deleteCommentToItem(base.getAllItems().get(0), 1);
+        assertThat(base.getAllItems().get(0).getComments().size(), is(2));
     }
 
     /**
@@ -189,11 +174,11 @@ public class TrackerTest {
     public void whenClearAllComments() throws Exception {
         Tracker base = new Tracker();
         base.addItem(new Item("sergey", "testing", "3E7"));
-        base.addCommentToItem(base.getAllItems()[0], "001");
-        base.addCommentToItem(base.getAllItems()[0], "002");
-        base.addCommentToItem(base.getAllItems()[0], "003");
-        assertThat(base.getAllItems()[0].getComments().length, is(3));
-        base.clearAllComments(base.getAllItems()[0]);
-        assertThat(base.getAllItems()[0].getComments().length, is(0));
+        base.addCommentToItem(base.getAllItems().get(0), "001");
+        base.addCommentToItem(base.getAllItems().get(0), "002");
+        base.addCommentToItem(base.getAllItems().get(0), "003");
+        assertThat(base.getAllItems().get(0).getComments().size(), is(3));
+        base.clearAllComments(base.getAllItems().get(0));
+        assertThat(base.getAllItems().get(0).getComments().size(), is(0));
     }
 }

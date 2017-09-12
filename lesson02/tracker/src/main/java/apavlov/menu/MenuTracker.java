@@ -4,14 +4,14 @@ import apavlov.database.Tracker;
 import apavlov.input.Input;
 import apavlov.models.Comment;
 import apavlov.models.Item;
-
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class StartUi for work with Tracker.
  *
  * @author Pavlov Artem
- * @since 28.08.2017
+ * @since 12.09.2017
  */
 public class MenuTracker {
 
@@ -20,15 +20,15 @@ public class MenuTracker {
      */
     private UserAction exit = new BaseAction("Exit program", 12) {
         @Override
-        public void execuite(Tracker tracker, Input input) {
-            System.out.printf("%sProgramm is exit...", LS);
+        public void execute(Tracker tracker, Input input) {
+            System.out.printf("%sProgram is exit...", LS);
         }
     };
 
     /**
      * The constant var line separator.
      */
-    public static final String LS = System.lineSeparator();
+    private static final String LS = System.lineSeparator();
 
     /**
      * The var for work with console.
@@ -43,7 +43,7 @@ public class MenuTracker {
     /**
      * The array for save all menu program.
      */
-    private UserAction[] menuArray = new UserAction[0];
+    private List<UserAction> menuList = new ArrayList<>();
 
     /**
      * The constructor for class MenuTracker.
@@ -62,20 +62,7 @@ public class MenuTracker {
      * @return count menu;
      */
     public int getSizeMenu() {
-        return menuArray.length;
-    }
-
-    /**
-     * The method add menu to array.
-     *
-     * @param menu - ling object type UserAction;
-     * @return false ot true (is add or is not add);
-     */
-    private boolean addMenu(UserAction menu) {
-        boolean result = true;
-        menuArray = Arrays.copyOf(menuArray, menuArray.length + 1);
-        menuArray[menuArray.length - 1] = menu;
-        return result;
+        return menuList.size();
     }
 
     /**
@@ -85,25 +72,25 @@ public class MenuTracker {
      */
     public void fillMenu(String welcome) {
         System.out.printf("%s%s%s", welcome, LS, LS);
-        addMenu(new ShowItems("Show all items", 1));
-        addMenu(new SortById("Sort items by id", 2));
-        addMenu(new SortByName("Sort items by name", 3));
-        addMenu(new AddItem("Add new item", 4));
-        addMenu(new SearchByName("Search items by name", 5));
-        addMenu(new DeleteItem("Delete item by id", 6));
-        addMenu(new EditItem("Edit item by id", 7));
-        addMenu(new ShowCommentsItem("Show all comments item`s by id", 8));
-        addMenu(new AddCommentItem("Add comment to item by id", 9));
-        addMenu(new DeleteCommentItem("Delete comment by index to item by id", 10));
-        addMenu(new ClearCommentsItem("Clear comments to item by id", 11));
-        addMenu(exit);
+        menuList.add(new ShowItems("Show all items", 1));
+        menuList.add(new SortById("Sort items by id", 2));
+        menuList.add(new SortByName("Sort items by name", 3));
+        menuList.add(new AddItem("Add new item", 4));
+        menuList.add(new SearchByName("Search items by name", 5));
+        menuList.add(new DeleteItem("Delete item by id", 6));
+        menuList.add(new EditItem("Edit item by id", 7));
+        menuList.add(new ShowCommentsItem("Show all comments item`s by id", 8));
+        menuList.add(new AddCommentItem("Add comment to item by id", 9));
+        menuList.add(new DeleteCommentItem("Delete comment by index to item by id", 10));
+        menuList.add(new ClearCommentsItem("Clear comments to item by id", 11));
+        menuList.add(exit);
     }
 
     /**
      * The method out menu to console.
      */
     public void showMenuToConsole() {
-        for (UserAction menu : menuArray) {
+        for (UserAction menu : menuList) {
             System.out.printf("%2s. %s;%s", menu.key(), menu.info(), LS);
         }
     }
@@ -124,9 +111,9 @@ public class MenuTracker {
      * @param key - key for execute;
      */
     public void select(int key) {
-        for (UserAction menu : menuArray) {
+        for (UserAction menu : menuList) {
             if (menu.key() == key) {
-                menu.execuite(this.tracker, this.input);
+                menu.execute(this.tracker, this.input);
                 break;
             }
         }
@@ -157,11 +144,11 @@ class ShowItems extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String line = String.format("%95s", " ").replace(" ", "-");
         System.out.printf("%s%-5s%-30s%-50s%-11s%s", LS, "ID", "NAME", "DESCRIPTION", "DATE", LS);
         System.out.println(line);
-        if (tracker.getAllItems().length != 0) {
+        if (tracker.getAllItems().size() != 0) {
             for (Item item : tracker.getAllItems()) {
                 System.out.printf("%-5.4s%-30.29s%-50.49s%-11.10s%s", item.getIdItem(), item.getName(), item.getDescription(), item.getDateCreate(), LS);
             }
@@ -196,8 +183,8 @@ class SortById extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
-        if (tracker.getAllItems().length != 0) {
+    public void execute(Tracker tracker, Input input) {
+        if (tracker.getAllItems().size() != 0) {
             tracker.sortItemsToId();
             System.out.printf("%sThe items is sort by id...%s%s", LS, LS, LS);
         } else {
@@ -230,8 +217,8 @@ class SortByName extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
-        if (tracker.getAllItems().length != 0) {
+    public void execute(Tracker tracker, Input input) {
+        if (tracker.getAllItems().size() != 0) {
             tracker.sortItemsToName();
             System.out.printf("%sThe items is sort by name...%s%s", LS, LS, LS);
         } else {
@@ -264,8 +251,8 @@ class AddItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
-        String result = "";
+    public void execute(Tracker tracker, Input input) {
+        String result;
         String name = input.ask("Please, input name for item and press Enter: ");
         String description = input.ask("Please, input description for item and press Enter: ");
         name = name.trim();
@@ -304,15 +291,15 @@ class SearchByName extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String word = input.ask("Please, input word for search items by name and press Enter: ");
         word = word.trim();
         if (word.length() != 0) {
-            Item[] items = tracker.findByName(word);
+            List<Item> items = tracker.findByName(word);
             String line = String.format("%95s", " ").replace(" ", "-");
             System.out.printf("%s%-5s%-30s%-50s%-11s%s", LS, "ID", "NAME", "DESCRIPTION", "DATE", LS);
             System.out.println(line);
-            if (items.length != 0) {
+            if (items.size() != 0) {
                 for (Item item : items) {
                     System.out.printf("%-5.4s%-30.29s%-50.49s%-11.10s%s", item.getIdItem(), item.getName(), item.getDescription(), item.getDateCreate(), LS);
                 }
@@ -351,7 +338,7 @@ class DeleteItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for delete and press Enter: ");
         if (tracker.deleteItem(tracker.findById(id))) {
             System.out.printf("%s%s%s%s", LS, "The item is delete!", LS, LS);
@@ -385,7 +372,7 @@ class EditItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for edit and press Enter: ");
         Item item = tracker.findById(id);
         if (item != null) {
@@ -429,18 +416,18 @@ class ShowCommentsItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for show comment and press Enter: ");
         Item item = tracker.findById(id);
         if (item != null) {
-            Comment[] comments = item.getComments();
+            List<Comment> comments = item.getComments();
             String line = String.format("%80s", " ").replace(" ", "-");
             System.out.printf("%s%-7s%-13s%-11s%-50s%s", LS, "INDEX", "DATE", "TIME", "COMMENT", LS);
             System.out.println(line);
-            if (comments.length != 0) {
-                for (int i = 0; i < comments.length; i++) {
-                    String[] dateAndTime = comments[i].getDateAndTimeCreate().split(" ");
-                    System.out.printf("%-7s%-13s%-11s%-50s%s", i + 1, dateAndTime[0], dateAndTime[1], comments[i].getComment(), LS);
+            if (comments.size() != 0) {
+                for (int i = 0; i < comments.size(); i++) {
+                    String[] dateAndTime = comments.get(i).getDateAndTimeCreate().split(" ");
+                    System.out.printf("%-7s%-13s%-11s%-50s%s", i + 1, dateAndTime[0], dateAndTime[1], comments.get(i).getComment(), LS);
                 }
             } else {
                 System.out.printf("%sList comments is empty...%s%s", LS, LS, LS);
@@ -476,7 +463,7 @@ class AddCommentItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for add comment and press Enter: ");
         Item item = tracker.findById(id);
         if (item != null) {
@@ -518,8 +505,8 @@ class DeleteCommentItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
-        String result = "";
+    public void execute(Tracker tracker, Input input) {
+        String result;
         String id = input.ask("Please, input id item for delete comment and press Enter: ");
         Item item = tracker.findById(id);
         if (item != null) {
@@ -561,7 +548,7 @@ class ClearCommentsItem extends BaseAction {
      * @param tracker - link object Tracker;
      * @param input   - link object Input;
      */
-    public void execuite(Tracker tracker, Input input) {
+    public void execute(Tracker tracker, Input input) {
         String id = input.ask("Please, input id item for show comment and press Enter: ");
         Item item = tracker.findById(id);
         if (item != null) {

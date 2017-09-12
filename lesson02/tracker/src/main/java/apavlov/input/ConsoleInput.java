@@ -27,7 +27,7 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         int key = Integer.parseInt(readConsole.nextLine());
         if (key < startRange || key > endRange) {
-            throw new MenuOutException("Error: Input number incoreect!");
+            throw new MenuOutException("Error: Input number incorrect!");
         }
         return key;
     }

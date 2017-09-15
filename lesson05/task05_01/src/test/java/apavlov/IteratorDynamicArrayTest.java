@@ -51,4 +51,18 @@ public class IteratorDynamicArrayTest {
         iterator.next();
         assertThat(iterator.next(), is(resultValue));
     }
+
+    /**
+     * The test method for check correct get next element to array different length.
+     *
+     * @throws Exception - check any errors;
+     */
+    @Test
+    public void whenGetNextElementDifferentLength() throws Exception {
+        IteratorDynamicArray iterator = new IteratorDynamicArray(new Integer[][]{{1, 2}, {3}});
+        int resultValue = 3;
+        iterator.next();
+        iterator.next();
+        assertThat(iterator.next(), is(resultValue));
+    }
 }

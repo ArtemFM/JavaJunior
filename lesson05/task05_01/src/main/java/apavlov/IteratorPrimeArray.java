@@ -17,7 +17,7 @@ public class IteratorPrimeArray implements Iterable, Iterator {
     /**
      * The var - position to array now.
      */
-    private int cursor = -1;
+    private int cursor = getNextIndexPrimeNumber();
 
     /**
      * The constructor for class`s IteratorPrimeArray.
@@ -26,7 +26,6 @@ public class IteratorPrimeArray implements Iterable, Iterator {
      */
     public IteratorPrimeArray(int[] values) {
         this.values = values;
-        this.cursor = getNextIndexPrimeNumber();
     }
 
     /**

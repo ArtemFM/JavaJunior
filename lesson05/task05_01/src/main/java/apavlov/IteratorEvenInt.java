@@ -17,7 +17,7 @@ public class IteratorEvenInt implements Iterable, Iterator {
     /**
      * The var - position cursor to array now.
      */
-    private int cursor;
+    private int cursor = getNextIndexEvenNumber();
 
     /**
      * The constructor for class IteratorEvenInt.
@@ -26,7 +26,6 @@ public class IteratorEvenInt implements Iterable, Iterator {
      */
     public IteratorEvenInt(int[] values) {
         this.values = values;
-        this.cursor = getNextIndexEvenNumber();
     }
 
     /**

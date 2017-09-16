@@ -25,44 +25,61 @@ public class IteratorDynamicArrayTest {
     }
 
     /**
-     * The test method for check work foreach.
+     * The test method for check work class, if array is empty.
      *
      * @throws Exception - check any errors;
      */
     @Test
-    public void whenCheckWorkForeach() throws Exception {
-        IteratorDynamicArray iterator = new IteratorDynamicArray(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
-        int resulValue = 1;
-        for (Object value : iterator) {
-            assertThat(value, is(resulValue++));
+    public void whenAttayIsEmpty() throws Exception {
+        IteratorDynamicArray iterator = new IteratorDynamicArray(new Integer[][]{{}});
+        assertThat(iterator.hasNext(), is(false));
+    }
+
+    /**
+     * The test method for check correct get next element foreach to array different length.
+     *
+     * @throws Exception - check any errors;
+     */
+    @Test
+    public void whenGetNextElementDifferentLengthForeach() throws Exception {
+        Integer[][] inArray = {
+                {},
+                {1, 2, 3},
+                {},
+                {4},
+                {5, 6, 7, 8, 9},
+                {},
+                {}
+        };
+        IteratorDynamicArray<Integer> iterator = new IteratorDynamicArray(inArray);
+        int[] resultArray = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int index = 0;
+        for (int value : iterator) {
+            assertThat(value, is(resultArray[index++]));
         }
     }
 
     /**
-     * The test method for check correct get next element.
+     * The test method for check correct get next element iterator to array different length.
      *
      * @throws Exception - check any errors;
      */
     @Test
-    public void whenGetNextElement() throws Exception {
-        IteratorDynamicArray iterator = new IteratorDynamicArray(new Integer[][]{{1, 2, 3}});
-        int resultValue = 3;
-        iterator.next();
-        iterator.next();
-        assertThat(iterator.next(), is(resultValue));
-    }
-
-    /**
-     * The test method for check correct get next element to array different length.
-     *
-     * @throws Exception - check any errors;
-     */
-    @Test
-    public void whenGetNextElementDifferentLength() throws Exception {
-        IteratorDynamicArray iterator = new IteratorDynamicArray(new Integer[][]{{1, 2}, {3}});
-        int resultValue = 3;
-        iterator.next();
-        iterator.next();
-        assertThat(iterator.next(), is(resultValue));
+    public void whenGetNextElementDifferentLengthIterator() throws Exception {
+        Integer[][] inArray = {
+                {},
+                {},
+                {1, 2},
+                {3},
+                {4},
+                {},
+                {5, 6, 7, 8, 9},
+        };
+        IteratorDynamicArray<Integer> iterator = new IteratorDynamicArray(inArray);
+        int[] resultArray = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int index = 0;
+        while (iterator.hasNext()) {
+            assertThat(iterator.next(), is(resultArray[index++]));
+        }
     }
 }

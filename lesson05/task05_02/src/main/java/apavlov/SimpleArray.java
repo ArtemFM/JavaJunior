@@ -147,7 +147,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param value - value for search;
      * @return if element is not found -1 or index element`s to array;
      */
-    private int get(T value) {
+    public int get(T value) {
         int result = -1;
         for (int i = 0; i < countElements; i++) {
             if (this.value[i].equals(value)) {

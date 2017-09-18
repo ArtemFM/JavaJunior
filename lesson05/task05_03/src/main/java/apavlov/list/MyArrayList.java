@@ -2,6 +2,7 @@ package apavlov.list;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The class MyArrayList - enrollment methods for work with array.
@@ -151,7 +152,7 @@ public class MyArrayList<E> implements MyList<E> {
         boolean result = false;
         if (checkRangeArray(index)) {
             System.arraycopy(this.value, index + 1, this.value, index, countElements - index - 1);
-            this.value[countElements--] = null;
+            this.value[--countElements] = null;
             result = true;
         }
         return result;
@@ -199,6 +200,9 @@ public class MyArrayList<E> implements MyList<E> {
 
         @Override
         public E next() {
+            if (cursorIterator == countElements) {
+                throw new NoSuchElementException("The element is not found...");
+            }
             return (E) value[cursorIterator++];
         }
     }

@@ -2,6 +2,7 @@ package apavlov;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * The class SimpleArray - enrollment methods for work with array.
@@ -184,7 +185,7 @@ public class SimpleArray<T> implements Iterable<T> {
         boolean result = false;
         if (checkRangeArray(index)) {
             System.arraycopy(this.value, index + 1, this.value, index, countElements - index - 1);
-            this.value[countElements--] = null;
+            this.value[--countElements] = null;
             result = true;
         }
         return result;
@@ -248,6 +249,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public T next() {
+            if (cursorIterator >= countElements) {
+                throw new NoSuchElementException("Element is not found...");
+            }
             return (T) value[cursorIterator++];
         }
     }

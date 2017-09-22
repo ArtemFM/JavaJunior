@@ -19,5 +19,6 @@
 		<module>task02_05</module>
         <module>tracker</module>
 		<module>chess</module>
+		<module>test_task</module>
     </modules>
 </project>

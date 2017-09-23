@@ -18,5 +18,6 @@
 		<module>task03_02</module>
 		<module>task03_03</module>
 		<module>task03_04</module>
+		<module>test_task_lesson03</module>
     </modules>
 </project>

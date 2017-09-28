@@ -12,7 +12,7 @@ public class PerformanceSetTest {
     /**
      * The count elements for addition collection.
      */
-    private static final int TEST_LENGTH = 100_000;
+    private static final int TEST_LENGTH = 10;
 
     /**
      * The test array for addition collection.

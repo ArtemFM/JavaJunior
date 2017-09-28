@@ -90,4 +90,10 @@ public class User {
         this.children = children;
         this.birthday = birthday;
     }
+
+    @Override
+    public int hashCode() {
+        Integer child = children;
+        return this.name.hashCode() ^ child.hashCode() ^ birthday.hashCode();
+    }
 }

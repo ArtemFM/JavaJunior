@@ -93,9 +93,8 @@ public class User {
 
     @Override
     public int hashCode() {
-        /*Integer child = children;
-        return this.name.hashCode() ^ child.hashCode() ^ birthday.hashCode();*/
-        return super.hashCode();
+        Integer child = children;
+        return this.name.hashCode() ^ child.hashCode() ^ birthday.hashCode();
     }
 
     @Override

@@ -93,7 +93,21 @@ public class User {
 
     @Override
     public int hashCode() {
-        Integer child = children;
-        return this.name.hashCode() ^ child.hashCode() ^ birthday.hashCode();
+        /*Integer child = children;
+        return this.name.hashCode() ^ child.hashCode() ^ birthday.hashCode();*/
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = obj != null;
+        if (result) {
+            result = !(obj != this && getClass() == obj.getClass());
+            if (!result) {
+                User user = (User) obj;
+                result = user.getName().equals(this.name) && user.getChildren() == this.children && user.getBirthday().equals(this.birthday);
+            }
+        }
+        return result;
     }
 }

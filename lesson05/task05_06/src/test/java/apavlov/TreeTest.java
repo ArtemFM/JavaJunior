@@ -125,4 +125,37 @@ public class TreeTest {
         iterator.next();
         iterator.next();
     }
+
+    /**
+     * The test method check, when tree is not binary (have children > 2).
+     *
+     * @throws Exception - check any errors;
+     */
+    @Test
+    public void whenTreeIsNotBinary() throws Exception {
+        Tree<String> tree = new Tree<>("1");
+        tree.add("1", null);
+        tree.add("1", "2");
+        tree.add("1", "3");
+        tree.add("2", "4");
+        tree.add("3", "5");
+        tree.add("4", "6");
+        assertThat(tree.isBinary(), is(false));
+    }
+
+    /**
+     * The test method check, when tree is binary (have children < 3).
+     *
+     * @throws Exception - check any errors;
+     */
+    @Test
+    public void whenTreeIsBinary() throws Exception {
+        Tree<String> tree = new Tree<>("1");
+        tree.add("1", null);
+        tree.add("1", "2");
+        tree.add("2", "4");
+        tree.add("3", "5");
+        tree.add("4", "6");
+        assertThat(tree.isBinary(), is(true));
+    }
 }

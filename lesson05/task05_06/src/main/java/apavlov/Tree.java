@@ -97,6 +97,31 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
+     * Yhe method check tree is binary or not.
+     *
+     * @return true - children < 3; false - children > 2;
+     */
+    public boolean isBinary() {
+        return checkIsBinary(root, true);
+    }
+
+    /**
+     * The recurse method for check is binary tree or not.
+     *
+     * @param head - head tree;
+     * @param result - var for return result;
+     * @return - true - is binary; false - is not binary;
+     */
+    private boolean checkIsBinary(Node<E> head, boolean result) {
+        if (head != null && (result = head.children.size() <= 2)) {
+            for (Node<E> element : head.children) {
+                result = checkIsBinary(element, result);
+            }
+        }
+        return result;
+    }
+
+    /**
      * The method return array children parent`s.
      *
      * @param parent - parent;

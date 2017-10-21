@@ -14,6 +14,7 @@
 		<module>lesson02</module>
 		<module>lesson03</module>
         <module>lesson05</module>
+		<module>lesson07</module>
     </modules>
 	
 	<properties>

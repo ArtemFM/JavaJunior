@@ -4,7 +4,7 @@ package apavlov;
  * The class ParametersOffer - for print to console count spaces and words to offer.
  *
  * @author Pavlov Artem
- * @since 21.10.2017
+ * @since 29.11.2017
  */
 public class ParametersOffer {
     /**
@@ -24,29 +24,40 @@ public class ParametersOffer {
     /**
      * The method start threads work to offer.
      *
-     * @param ms - max time in ms for work threads;
+     * @param time - max time in ms for work threads;
      */
-    public void start(long ms) {
-        System.out.printf("Start program %s;%s", getClass().getName(), System.lineSeparator());
+    public void start(long time) {
+        System.out.println("Start program");
+        long ms = System.currentTimeMillis();
         Thread threadFirst = new WorkerString().getCountSpacesToOffer(this.offer);
         Thread threadSecond = new WorkerString().getCountWordsToOffer(this.offer);
         threadFirst.start();
         threadSecond.start();
-        try {
-            threadFirst.join(ms);
-            threadSecond.join(ms);
-            if (threadFirst.isAlive()) {
-                threadFirst.interrupt();
-                threadFirst.join();
-            }
-            if (threadSecond.isAlive()) {
-                threadSecond.interrupt();
-                threadSecond.join();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (!threadFirst.isInterrupted() || !threadSecond.isInterrupted()) {
+           if (System.currentTimeMillis() - ms >= time) {
+               stop(threadFirst);
+               stop(threadSecond);
+               break;
+           }
         }
-        System.out.printf("End program %s;%s", getClass().getName(), System.lineSeparator());
+        System.out.println("End program");
+    }
+
+    /**
+     * If thread is not stop, then stop thread.
+     *
+     * @param thread - thread for stop;
+     */
+    public void stop(Thread thread) {
+        if (!thread.isInterrupted()) {
+            thread.interrupt();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
+
 

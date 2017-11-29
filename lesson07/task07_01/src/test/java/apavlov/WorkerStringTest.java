@@ -18,7 +18,7 @@ public class WorkerStringTest {
     /**
      * The constant - offer for check work methods.
      */
-    private static final String offer = "1111,   2222,3333... 44444. 55555...  66666!!! 777777? ";
+    private static final String OFFER = "1111,   2222,3333... 44444. 55555...  66666!!! 777777? ";
 
     /**
      * The method check correct output to console result (count spaces to offer).
@@ -27,12 +27,13 @@ public class WorkerStringTest {
      */
     @Test
     public void whenGetCountSpacesToOffer() throws Exception {
+        String result = String.format("Count spaces: 9;%sThe thread [%s] is end work.%s", System.lineSeparator(), "ThreadCountSpaces", System.lineSeparator());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        Thread threadCountSpaces = new WorkerString().getCountSpacesToOffer(offer);
+        Thread threadCountSpaces = new WorkerString().getCountSpacesToOffer(OFFER);
         threadCountSpaces.start();
         threadCountSpaces.join();
-        assertThat(out.toString(), is(String.format("Count spaces: 9")));
+        assertThat(out.toString(), is(result));
     }
 
     /**
@@ -42,12 +43,13 @@ public class WorkerStringTest {
      */
     @Test
     public void whenGetCountWordsToOffer() throws Exception {
+        String result = String.format("Count words: 7;%sThe thread [%s] is end work.%s", System.lineSeparator(), "ThreadCountWords", System.lineSeparator());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        Thread threadCountWords = new WorkerString().getCountWordsToOffer(offer);
+        Thread threadCountWords = new WorkerString().getCountWordsToOffer(OFFER);
         threadCountWords.start();
         threadCountWords.join();
-        assertThat(out.toString(), is(String.format("Count words: 7")));
+        assertThat(out.toString(), is(result));
     }
 
     /**
@@ -62,8 +64,8 @@ public class WorkerStringTest {
         Thread threadCountWords;
         Thread threadCountSpaces;
         for (int i = 0; i < countTests; i++) {
-            threadCountSpaces = wStr.getCountSpacesToOffer(offer);
-            threadCountWords = wStr.getCountWordsToOffer(offer);
+            threadCountSpaces = wStr.getCountSpacesToOffer(OFFER);
+            threadCountWords = wStr.getCountWordsToOffer(OFFER);
             threadCountSpaces.start();
             threadCountWords.start();
             threadCountSpaces.join();

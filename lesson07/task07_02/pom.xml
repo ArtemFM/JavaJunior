@@ -2,19 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>lesson07</artifactId>
-    <groupId>ru.job4j.javajunior</groupId>
+    <groupId>ru.job4j.javajunior.lesson07</groupId>
+    <artifactId>task07_02</artifactId>
     <version>2.0</version>
-	<packaging>pom</packaging>
-
+	
     <parent>
-        <artifactId>javajunior</artifactId>
-        <groupId>ru.job4j</groupId>
+        <artifactId>lesson07</artifactId>
+        <groupId>ru.job4j.javajunior</groupId>
         <version>2.0</version>
     </parent>
-
-    <modules>
-        <module>task07_01</module>
-		<module>task07_02</module>
-    </modules>
 </project>

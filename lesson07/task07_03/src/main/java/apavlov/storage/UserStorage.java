@@ -21,7 +21,7 @@ public class UserStorage implements Iterable<User> {
      * Collection for storage users.
      */
     @GuardedBy("itself")
-    private Map<Integer, User> base;
+    private final Map<Integer, User> base;
 
     /**
      * The default constructor for class UserStorage.
@@ -55,7 +55,7 @@ public class UserStorage implements Iterable<User> {
      * @param users - array users;
      */
     private void addAll(User[] users) {
-        synchronized (this) {
+        synchronized (this.base) {
             Stream.of(users).forEach(this::add);
         }
     }
@@ -74,7 +74,7 @@ public class UserStorage implements Iterable<User> {
         User to = this.base.get(toId);
         if (result = from != null && to != null) {
             if (result = amount > 0 && from.getAmount() >= amount) {
-                synchronized (this) {
+                synchronized (this.base) {
                     this.base.put(fromId, new User(fromId, from.getAmount() - amount));
                     this.base.put(toId, new User(toId, to.getAmount() + amount));
                 }
@@ -91,7 +91,7 @@ public class UserStorage implements Iterable<User> {
      */
     public boolean add(User user) {
         boolean result;
-        synchronized (this) {
+        synchronized (this.base) {
             if (result = user != null) {
                 this.base.put(user.getId(), user);
             }
@@ -108,7 +108,7 @@ public class UserStorage implements Iterable<User> {
     public boolean delete(User user) {
         boolean result;
         if (result = user != null) {
-            synchronized (this) {
+            synchronized (this.base) {
                 int oldSize = this.size();
                 this.base.remove(user.getId());
                 result = oldSize != this.size();
@@ -125,7 +125,7 @@ public class UserStorage implements Iterable<User> {
      */
     public boolean update(User user) {
         boolean result;
-        synchronized (this) {
+        synchronized (this.base) {
             if (result = user != null && this.base.containsKey(user.getId())) {
                 this.add(user);
             }

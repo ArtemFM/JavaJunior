@@ -57,12 +57,16 @@ public class MyLinkedList<E> implements MyList<E> {
 
     @Override
     public int size() {
-        return size;
+        synchronized (this) {
+            return size;
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return this.size == 0;
+        synchronized (this) {
+            return this.size == 0;
+        }
     }
 
     @Override
@@ -76,10 +80,13 @@ public class MyLinkedList<E> implements MyList<E> {
 
     @Override
     public Object[] toArray() {
-        Object[] resultArray = new Object[this.size];
-        int index = 0;
-        for (Node link = first; link != null; link = link.next) {
-            resultArray[index++] = link.value;
+        Object[] resultArray = null;
+        synchronized (this) {
+            resultArray = new Object[this.size];
+            int index = 0;
+            for (Node link = first; link != null; link = link.next) {
+                resultArray[index++] = link.value;
+            }
         }
         return resultArray;
     }
@@ -123,15 +130,17 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     private Node getLinkByIndex(int index) {
         Node result;
-        if (this.size >> 1 >= index) {
-            result = this.first;
-            for (int i = 0; i < index; i++) {
-                result = result.next;
-            }
-        } else {
-            result = this.last;
-            for (int i = this.size - 1; i > index; i--) {
-                result = result.prev;
+        synchronized (this) {
+            if (this.size >> 1 >= index) {
+                result = this.first;
+                for (int i = 0; i < index; i++) {
+                    result = result.next;
+                }
+            } else {
+                result = this.last;
+                for (int i = this.size - 1; i > index; i--) {
+                    result = result.prev;
+                }
             }
         }
         return result;
@@ -180,10 +189,12 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     private Node getLinkByValue(E value) {
         Node result = null;
-        for (Node element = first; element != null; element = element.next) {
-            if (element.value.equals(value)) {
-                result = element;
-                break;
+        synchronized (this) {
+            for (Node element = first; element != null; element = element.next) {
+                if (element.value.equals(value)) {
+                    result = element;
+                    break;
+                }
             }
         }
         return result;
@@ -208,12 +219,10 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public E get(int index) {
         E result;
-        synchronized (this) {
-            if (checkIndexToRange(index)) {
-                result = getLinkByIndex(index).value;
-            } else {
-                throw new NoSuchElementException(this.msgException);
-            }
+        if (checkIndexToRange(index)) {
+            result = getLinkByIndex(index).value;
+        } else {
+            throw new NoSuchElementException(this.msgException);
         }
         return result;
     }

@@ -58,12 +58,16 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public int size() {
-        return this.countElements;
+        synchronized (this) {
+            return this.countElements;
+        }
     }
 
     @Override
     public boolean isEmpty() {
-        return countElements == 0;
+        synchronized (this) {
+            return countElements == 0;
+        }
     }
 
     @Override
@@ -76,7 +80,9 @@ public class MyArrayList<E> implements MyList<E> {
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(this.value, countElements);
+        synchronized (this) {
+            return Arrays.copyOf(this.value, countElements);
+        }
     }
 
     @Override
@@ -130,10 +136,8 @@ public class MyArrayList<E> implements MyList<E> {
     public boolean addAll(E[] values) {
         boolean result = values != null && values.length != 0;
         if (result) {
-            synchronized (this) {
-                for (E value : values) {
-                    add(value);
-                }
+            for (E value : values) {
+                add(value);
             }
         }
         return result;

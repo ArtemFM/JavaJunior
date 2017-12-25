@@ -46,7 +46,9 @@ public class UserStorage implements Iterable<User> {
      * @return amount users;
      */
     public int size() {
-        return this.base.size();
+        synchronized (this.base) {
+            return this.base.size();
+        }
     }
 
     /**
@@ -70,13 +72,15 @@ public class UserStorage implements Iterable<User> {
      */
     public boolean transfer(int fromId, int toId, double amount) {
         boolean result;
-        User from = this.base.get(fromId);
-        User to = this.base.get(toId);
-        if (result = from != null && to != null) {
-            if (result = amount > 0 && from.getAmount() >= amount) {
-                synchronized (this.base) {
-                    this.base.put(fromId, new User(fromId, from.getAmount() - amount));
-                    this.base.put(toId, new User(toId, to.getAmount() + amount));
+        synchronized (this.base) {
+            User from = this.base.get(fromId);
+            User to = this.base.get(toId);
+            if (result = from != null && to != null) {
+                if (result = amount > 0 && from.getAmount() >= amount) {
+                    synchronized (this.base) {
+                        this.base.put(fromId, new User(fromId, from.getAmount() - amount));
+                        this.base.put(toId, new User(toId, to.getAmount() + amount));
+                    }
                 }
             }
         }

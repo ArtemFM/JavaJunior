@@ -8,11 +8,6 @@ package apavlov;
  */
 public class ThreadExample extends Thread {
     /**
-     * The var - result work thread.
-     */
-    private int value;
-
-    /**
      * The test class for check thread.
      */
     private ExampleObject obj;
@@ -26,15 +21,6 @@ public class ThreadExample extends Thread {
      * Max range cycle.
      */
     private int maxCycle;
-
-    /**
-     * The getter for var value.
-     *
-     * @return value;
-     */
-    public int getValue() {
-        return value;
-    }
 
     /**
      * The constructor for class ThreadExample.
@@ -53,13 +39,19 @@ public class ThreadExample extends Thread {
 
     @Override
     public void run() {
-        int value = obj.getValue();
         int count = 0;
+        int value = this.obj.getValue();
         while (count++ < maxCycle) {
-            value += step;
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            value += this.step;
+            this.obj.setValue(value);
         }
+        System.out.printf("Value thread = %d; Value object = %d;%s", value, this.obj.getValue(), System.lineSeparator());
         System.out.printf("The thread [%s] is finish.%s", getName(), System.lineSeparator());
-        this.value = value;
     }
 }
 
@@ -82,6 +74,15 @@ class ExampleObject {
      */
     public int getValue() {
         return value;
+    }
+
+    /**
+     * The setter for var value.
+     *
+     * @param  value - value;
+     */
+    public void setValue(int value) {
+        this.value = value;
     }
 
     /**

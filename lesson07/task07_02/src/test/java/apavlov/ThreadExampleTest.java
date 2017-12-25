@@ -14,7 +14,7 @@ public class ThreadExampleTest {
     /**
      * The test object ExampleObject for test threads.
      */
-    private ExampleObject obj = new ExampleObject(10);
+    private ExampleObject obj = new ExampleObject(0);
 
     /**
      * The method check that value to thread is not value to ExampleObject.
@@ -23,26 +23,13 @@ public class ThreadExampleTest {
      */
     @Test
     public void whenWorkFirstThread() throws Exception {
-        ThreadExample first = new ThreadExample("FirstThread", this.obj, 2, 10_000);
+        ThreadExample first = new ThreadExample("FirstThread", this.obj, 1, 1_000);
+        ThreadExample second = new ThreadExample("SecondThread", this.obj, 1, 1_000);
+        int result = 2_000;
         first.start();
-        first.join();
-        assertThat(first.getValue(), is(20_010));
-        assertThat(this.obj.getValue(), is(10));
-        assertThat(this.obj.getValue() != first.getValue(), is(true));
-    }
-
-    /**
-     * The method check that value to thread is not value to ExampleObject.
-     *
-     * @throws Exception - check any errors;
-     */
-    @Test
-    public void whenWorkSecondThread() throws Exception {
-        ThreadExample second = new ThreadExample("SecondThread", this.obj, 3, 10_000);
         second.start();
+        first.join();
         second.join();
-        assertThat(second.getValue(), is(30_010));
-        assertThat(this.obj.getValue(), is(10));
-        assertThat(this.obj.getValue() != second.getValue(), is(true));
+        assertThat(result != this.obj.getValue(), is(true));
     }
 }

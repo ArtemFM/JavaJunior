@@ -2,6 +2,6 @@
  * The package.
  *
  * @author Pavlov Artem
- * @since 24.12.2017
+ * @since 26.12.2017
  */
-package apavlov.blocking;
+package apavlov.nonblock;

@@ -22,7 +22,7 @@ public class ProducerConsumerTest {
         pc.getProducer().start();
         pc.getConsumer().start();
         while (cycle-- != 0) {
-            Thread.sleep(100);
+            Thread.sleep(10);
             if (cycle == 0) {
                 pc.setFinish(true);
             }

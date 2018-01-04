@@ -312,7 +312,6 @@ class SearchTextToFile {
 
         /**
          * The method check path is file and by mask.
-         * *
          *
          * @param file - link object File (path);
          * @param mask - mask file;

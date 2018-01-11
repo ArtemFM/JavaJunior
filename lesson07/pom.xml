@@ -17,5 +17,6 @@
         <module>task07_01</module>
 		<module>task07_02</module>
 		<module>task07_03</module>
+		<module>lift</module>
     </modules>
 </project>

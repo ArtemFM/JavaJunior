@@ -15,5 +15,6 @@
 	
 	<modules>
         <module>jdbc</module>
+		<module>tracker</module>
     </modules>
 </project>
